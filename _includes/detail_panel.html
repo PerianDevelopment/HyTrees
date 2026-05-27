@@ -19,14 +19,65 @@
             </div>
 
             <div class="main-stats-panel">
-                <div class="grid-sector">
+               <div class="grid-sector growth-requirements-section">
                     <h3>Growth Requirements</h3>
-                    <div class="tile"><strong>Dirt Depth:</strong> <span id="dt-depth"></span> blocks</div>
-                    <div class="tile"><strong>Min Spacing:</strong> <span id="dt-spacing"></span> radius</div>
-                    <div class="tile"><strong>Station Tier:</strong> Level <span id="dt-station"></span></div>
-                    <div class="tile"><strong>LE Cost:</strong> <span id="dt-cost"></span></div>
-                    <div class="tile"><strong>Growth Time:</strong> <span id="dt-time"></span></div>
-                    <div class="tile"><strong>Guaranteed Growth:</strong> <span id="dt-guaranteed"></span></div>
+                    
+                    <div class="req-grid">
+                        <!-- Soil/Root Depth Row (Full width) -->
+                        <div class="req-item depth-item">
+                            <img src="assets/images/icons/dirt.png" onerror="this.src='assets/images/fallback_frame.png'" alt="Soil Depth" class="req-icon">
+                            <div class="req-text">
+                                <span class="req-label">Required Depth</span>
+                                <span class="req-value" id="dt-depth">--</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grouped Side-by-Side: Station & LE Cost -->
+                        <div class="req-row">
+                            <div class="req-item">
+                                <img src="assets/images/icons/station.png" onerror="this.src='assets/images/fallback_frame.png'" alt="Station" class="req-icon">
+                                <div class="req-text">
+                                    <span class="req-label">Station Level</span>
+                                    <span class="req-value" id="dt-station">--</span>
+                                </div>
+                            </div>
+                            <div class="req-item">
+                                <img src="assets/images/icons/essence_of_life.png" onerror="this.src='assets/images/fallback_frame.png'" alt="LE Cost" class="req-icon">
+                                <div class="req-text">
+                                    <span class="req-label">LE Cost</span>
+                                    <span class="req-value" id="dt-cost">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grouped Side-by-Side: Spacing & Growth Time -->
+                        <div class="req-row">
+                            <div class="req-item">
+                                <img src="assets/images/icons/spacing.png" onerror="this.src='assets/images/fallback_frame.png'" alt="Spacing" class="req-icon">
+                                <div class="req-text">
+                                    <span class="req-label">Spacing</span>
+                                    <span class="req-value" id="dt-spacing">--</span>
+                                </div>
+                            </div>
+                            <div class="req-item">
+                                <img src="assets/images/icons/clock.png" onerror="this.src='assets/images/fallback_frame.png'" alt="Growth Time" class="req-icon">
+                                <div class="req-text">
+                                    <span class="req-label">Growth Time</span>
+                                    <span class="req-value" id="dt-growth-time">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional Hint Box -->
+                    <div id="dt-hint-container" class="growth-hint hidden">
+                        <div id="dt-hint-guaranteed" class="hidden">
+                            ⚠️ <strong>Growth Note:</strong> Development is not guaranteed under baseline parameters.
+                        </div>
+                        <div id="dt-hint-extras" class="hidden">
+                            💡 <strong>Special Extras:</strong> <span id="dt-extras-text"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid-sector drop-metrics-matrix">

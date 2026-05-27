@@ -269,3 +269,70 @@ body {
 .rule-group p { color: var(--text-primary); font-weight: bold; margin-top: 5px; }
 .tray-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; }
 .persistent-badge { font-size: 12px; color: var(--accent-glow); padding-top: 10px; border-top: 1px solid var(--border-stone); }
+
+.growth-requirements-section {
+  padding: 20px;
+}
+
+.req-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.req-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.req-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-stone);
+  padding: 12px 16px;
+  border-radius: 4px;
+  flex: 1; 
+}
+
+.req-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.req-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.req-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.req-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Warning Hint Box */
+.growth-hint {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(235, 158, 48, 0.08);
+  border-left: 4px solid #eb9e30;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #f1b256;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

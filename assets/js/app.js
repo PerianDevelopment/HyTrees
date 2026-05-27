@@ -39,13 +39,17 @@ function initCatalog() {
         const card = document.createElement('div');
         card.className = 'tree-card';
         card.dataset.name = tree.Tree;
-        
+
+        // Determine the wood badge display text
+        const woodTypeRaw = tree["Wood Type"];
+        const woodDisplay = (woodTypeRaw === "NONE" || !woodTypeRaw) ? "???" : `${parseVal(woodTypeRaw)}wood`;
+
         // Dynamically load the log image in the sidebar
         card.innerHTML = `
             <img class="card-img-placeholder" src="assets/images/logs/${treeIdClean}_log.png" onerror="this.src='assets/images/fallback_frame.png'" alt="${tree.Tree} Log">
             <div class="card-details">
                 <h4>${tree.Tree}</h4>
-                <span class="wood-badge">${parseVal(tree["Wood Type"])} Wood</span>
+                <span class="wood-badge">${woodDisplay}</span>
             </div>
         `;
         card.addEventListener('click', () => selectTree(tree));
@@ -71,14 +75,45 @@ function selectTree(tree) {
         extraInfo.classList.add('hidden');
     }
 
-    // Growth Requirements Binding
+    // 1. Growth Requirements Binding
+    document.getElementById('dt-spacing').innerText = parseVal(tree["Spacing"]);
+    document.getElementById('dt-growth-time').innerText = parseVal(tree["Growth Time"]);
+    
     document.getElementById('dt-depth').innerText = parseVal(tree["Dirt Depth Required"]);
-    document.getElementById('dt-spacing').innerText = parseVal(tree["Min Spacing (Radius)"]);
     document.getElementById('dt-station').innerText = parseVal(tree["Station Level Required"]);
     document.getElementById('dt-cost').innerText = parseVal(tree["LE Cost"]);
-    document.getElementById('dt-time').innerText = parseVal(tree["Time"]);
-    document.getElementById('dt-guaranteed').innerHTML = tree["Growth stages guarenteed?"] === "Yes" ? "✅ Yes" : "❌ No";
 
+    // 2. Logic for the Hint Box (Guaranteed Growth & Special Extras)
+    const hintContainer = document.getElementById('dt-hint-container');
+    const hintGuaranteed = document.getElementById('dt-hint-guaranteed');
+    const hintExtras = document.getElementById('dt-hint-extras');
+    
+    // Check states
+    const isGuaranteed = String(tree["Growth stages guarenteed?"]).toUpperCase() === "YES";
+    const specialExtras = tree["Special Extras"];
+    const hasExtras = specialExtras && specialExtras !== "NONE" && specialExtras.trim() !== "";
+
+    // Toggle logic
+    if (!isGuaranteed || hasExtras) {
+        hintContainer.classList.remove('hidden'); // Show the wrapper
+        
+        if (!isGuaranteed) {
+            hintGuaranteed.classList.remove('hidden');
+        } else {
+            hintGuaranteed.classList.add('hidden');
+        }
+
+        if (hasExtras) {
+            hintExtras.classList.remove('hidden');
+            document.getElementById('dt-extras-text').innerText = specialExtras;
+        } else {
+            hintExtras.classList.add('hidden');
+        }
+    } else {
+        // If it IS guaranteed and HAS NO extras, hide the whole box
+        hintContainer.classList.add('hidden');
+    }
+    
     // Loot Table Binding
     document.getElementById('img-loot-log').src = `assets/images/logs/${treeIdClean}_log.png`;
     document.getElementById('dt-logs').innerText = parseVal(tree["Logs"]);
