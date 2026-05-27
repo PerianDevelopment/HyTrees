@@ -134,9 +134,37 @@ function updateTimelineMatrix() {
         }
     });
 
-    // Update Main Tree Image source based on the selected timeline stage
+    // --- Dynamic Image Fallback Logic ---
     const treeIdClean = tree.Tree.toLowerCase().replace(/\s/g, '');
-    document.getElementById('dt-main-img').src = `assets/images/trees/${treeIdClean}/stage_${AppState.activeStageTimelineIndex}.png`;
+    const imgEl = document.getElementById('dt-main-img');
+    
+    const basePath = `assets/images/trees/${treeIdClean}/`;
+    const universalFallback = 'assets/images/fallback_frame.png';
+    const stage5Path = `${basePath}stage_5.png`;
+
+    // 1. Set the initial target image
+    imgEl.src = `${basePath}stage_${AppState.activeStageTimelineIndex}.png`;
+
+    // 2. Define what happens if that target image fails to load
+    if (AppState.activeStageTimelineIndex === 5) {
+        // If we are ALREADY looking for Stage 5 and it fails, go straight to universal fallback
+        imgEl.onerror = function() {
+            this.onerror = null; // Clear handler to prevent infinite loops if the fallback is also missing
+            this.src = universalFallback;
+        };
+    } else {
+        // If it's stages 1-4, chain the fallbacks: Try Stage 5 first, THEN universal
+        imgEl.onerror = function() {
+            // Set up the secondary fallback just in case Stage 5 is also missing
+            this.onerror = function() {
+                this.onerror = null;
+                this.src = universalFallback;
+            };
+            // Execute the primary fallback to Stage 5
+            this.src = stage5Path;
+        };
+    }
+    // ------------------------------------
 
     // Rule Tray Mapping based on stage selected
     let ruleText = "No data available.";
