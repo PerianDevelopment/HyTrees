@@ -1,10 +1,9 @@
 const AppState = {
     selectedTreeId: null,
-    activeStageTimelineIndex: 1,
+    activeStageTimelineIndex: 5, // Defaulting to 5 for the "Big Image" view
     activeFilters: {
         searchQuery: "",
-        woodType: "ALL",
-        topProducerType: null // "Logs" | "Sticks" | "Fibre" | "Sap" | null
+        woodType: "ALL"
     }
 };
 
@@ -15,46 +14,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Helper: Null Safety Parser
 const parseVal = (val) => {
-    return (val === "" || val === null || val === undefined || val === "NaN") ? "--" : val;
+    return (val === "" || val === null || val === undefined || val === "NaN" || Number.isNaN(val)) ? "--" : val;
 };
 
-// 1. Render Catalog Loop
 function initCatalog() {
     const catalog = document.getElementById('tree-catalog');
     catalog.innerHTML = '';
     
     let filteredData = [...treeData];
 
-    // Filter Logic: High-Yield Top Producer
-    if (AppState.activeFilters.topProducerType) {
-        const metric = AppState.activeFilters.topProducerType;
-        filteredData = filteredData.filter(t => !isNaN(parseFloat(t[metric])));
-        filteredData.sort((a, b) => parseFloat(b[metric]) - parseFloat(a[metric]));
-        filteredData = filteredData.slice(0, 3);
-    } else {
-        // Standard Text/Type Filters
-        const query = AppState.activeFilters.searchQuery.toLowerCase();
-        const type = AppState.activeFilters.woodType;
-        
-        filteredData = filteredData.filter(t => {
-            const matchName = t.Tree && t.Tree.toLowerCase().includes(query);
-            const matchType = type === "ALL" || t["Wood Type"] === type;
-            return matchName && matchType;
-        });
-    }
+    // Standard Text/Type Filters
+    const query = AppState.activeFilters.searchQuery.toLowerCase();
+    const type = AppState.activeFilters.woodType;
+    
+    filteredData = filteredData.filter(t => {
+        const matchName = t.Tree && t.Tree.toLowerCase().includes(query);
+        const matchType = type === "ALL" || t["Wood Type"] === type;
+        return matchName && matchType;
+    });
 
     filteredData.forEach(tree => {
+        const treeIdClean = tree.Tree.toLowerCase().replace(/\s/g, '');
+        
         const card = document.createElement('div');
         card.className = 'tree-card';
-        if (AppState.activeFilters.topProducerType) {
-            card.classList.add('card-featured-glow');
-        }
-
         card.dataset.name = tree.Tree;
-        card.dataset.id = tree.Tree.toLowerCase().replace(/\s/g, '');
-
+        
+        // Dynamically load the log image in the sidebar
         card.innerHTML = `
-            <div class="card-img-placeholder"></div>
+            <img class="card-img-placeholder" src="assets/images/logs/${treeIdClean}_log.png" onerror="this.src='assets/images/fallback_frame.png'" alt="${tree.Tree} Log">
             <div class="card-details">
                 <h4>${tree.Tree}</h4>
                 <span class="wood-badge">${parseVal(tree["Wood Type"])} Wood</span>
@@ -67,14 +55,14 @@ function initCatalog() {
 
 function selectTree(tree) {
     AppState.selectedTreeId = tree;
-    AppState.activeStageTimelineIndex = 1;
+    AppState.activeStageTimelineIndex = 5; // Reset to stage 5 visually when switching trees
+    const treeIdClean = tree.Tree.toLowerCase().replace(/\s/g, '');
     
     document.getElementById('empty-state').classList.add('hidden');
     document.getElementById('detail-content').classList.remove('hidden');
 
-    // Header updates
+    // Header Updates
     document.getElementById('dt-name').innerText = tree.Tree;
-    
     const extraInfo = document.getElementById('dt-extra-info-container');
     if (tree["Special Extras"]) {
         extraInfo.classList.remove('hidden');
@@ -83,20 +71,23 @@ function selectTree(tree) {
         extraInfo.classList.add('hidden');
     }
 
-    // Dashboard Grid Data Binding
+    // Growth Requirements Binding
     document.getElementById('dt-depth').innerText = parseVal(tree["Dirt Depth Required"]);
     document.getElementById('dt-spacing').innerText = parseVal(tree["Min Spacing (Radius)"]);
     document.getElementById('dt-station').innerText = parseVal(tree["Station Level Required"]);
     document.getElementById('dt-cost').innerText = parseVal(tree["LE Cost"]);
-
-    document.getElementById('dt-guaranteed').innerHTML = tree["Growth stages guarenteed?"] === "Yes" ? "✅ Yes" : "❌ No";
-    document.getElementById('dt-probabilities').innerText = parseVal(tree["% reaching each stage"]);
     document.getElementById('dt-time').innerText = parseVal(tree["Time"]);
+    document.getElementById('dt-guaranteed').innerHTML = tree["Growth stages guarenteed?"] === "Yes" ? "✅ Yes" : "❌ No";
 
+    // Loot Table Binding
+    document.getElementById('img-loot-log').src = `assets/images/logs/${treeIdClean}_log.png`;
     document.getElementById('dt-logs').innerText = parseVal(tree["Logs"]);
     document.getElementById('dt-sticks').innerText = parseVal(tree["Sticks"]);
     document.getElementById('dt-fibre').innerText = parseVal(tree["Fibre"]);
     document.getElementById('dt-sap').innerText = parseVal(tree["Sap"]);
+
+    // Probabilities and Global Any-Stage rule
+    document.getElementById('dt-probabilities').innerText = parseVal(tree["% reaching each stage"]);
     document.getElementById('dt-any-stage').innerText = parseVal(tree["Any stage"]);
 
     updateTimelineMatrix();
@@ -106,6 +97,7 @@ function updateTimelineMatrix() {
     const tree = AppState.selectedTreeId;
     if (!tree) return;
 
+    // Update active button classes
     const nodes = document.querySelectorAll('.node-btn');
     nodes.forEach(n => {
         n.classList.remove('active');
@@ -114,12 +106,12 @@ function updateTimelineMatrix() {
         }
     });
 
-    // Image rendering setup (Broken Assets Fallback applied natively via HTML onerror)
+    // Update Main Tree Image source based on the selected timeline stage
     const treeIdClean = tree.Tree.toLowerCase().replace(/\s/g, '');
-    document.getElementById('dt-stage-img').src = `assets/images/trees/${treeIdClean}/stage_${AppState.activeStageTimelineIndex}.png`;
+    document.getElementById('dt-main-img').src = `assets/images/trees/${treeIdClean}/stage_${AppState.activeStageTimelineIndex}.png`;
 
-    // Rule Tray Mapping
-    let ruleText = "No data.";
+    // Rule Tray Mapping based on stage selected
+    let ruleText = "No data available.";
     switch (AppState.activeStageTimelineIndex) {
         case 1: ruleText = parseVal(tree["Block sapling"]); break;
         case 2: ruleText = parseVal(tree["Block Stage 1-->2"]); break;
@@ -139,31 +131,15 @@ function setupEventListeners() {
         });
     });
 
-    // Sidebar Filters
+    // Sidebar Search Filter
     document.getElementById('search-box').addEventListener('input', (e) => {
         AppState.activeFilters.searchQuery = e.target.value;
-        AppState.activeFilters.topProducerType = null;
         initCatalog();
     });
 
+    // Sidebar Type Filter
     document.getElementById('wood-type-dropdown').addEventListener('change', (e) => {
         AppState.activeFilters.woodType = e.target.value;
-        AppState.activeFilters.topProducerType = null;
         initCatalog();
-    });
-
-    // Header Yield Filters
-    document.querySelectorAll('.yield-filter').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.yield-filter').forEach(b => b.classList.remove('active'));
-            
-            if (AppState.activeFilters.topProducerType === e.target.dataset.metric) {
-                AppState.activeFilters.topProducerType = null; 
-            } else {
-                AppState.activeFilters.topProducerType = e.target.dataset.metric;
-                e.target.classList.add('active');
-            }
-            initCatalog();
-        });
     });
 }
