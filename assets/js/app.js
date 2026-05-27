@@ -42,7 +42,7 @@ function initCatalog() {
 
         // Determine the wood badge display text
         const woodTypeRaw = tree["Wood Type"];
-        const woodDisplay = (woodTypeRaw === "NONE" || !woodTypeRaw) ? Unknown : `${parseVal(woodTypeRaw)}wood`;
+        const woodDisplay = (woodTypeRaw === "NONE" || !woodTypeRaw) ? "Unknown" : `${parseVal(woodTypeRaw)}wood`;
 
         // Dynamically load the log image in the sidebar
         card.innerHTML = `
