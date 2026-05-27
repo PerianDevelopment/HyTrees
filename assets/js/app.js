@@ -69,8 +69,8 @@ function selectTree(tree) {
     document.getElementById('dt-name').innerText = tree.Tree;
 
     // 1. Growth Requirements Binding
-    document.getElementById('dt-spacing').innerText = parseVal(tree["Spacing"]);
-    document.getElementById('dt-growth-time').innerText = parseVal(tree["Growth Time"]);
+    document.getElementById('dt-spacing').innerText = parseVal(tree["Min Spacing (Radius)"]);
+    document.getElementById('dt-growth-time').innerText = parseVal(tree["Time"]);
     
     document.getElementById('dt-depth').innerText = parseVal(tree["Dirt Depth Required"]);
     document.getElementById('dt-station').innerText = parseVal(tree["Station Level Required"]);
