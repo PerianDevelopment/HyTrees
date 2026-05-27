@@ -1,0 +1,6 @@
+name: HyTrees
+title: HyTrees - Hytale Sapling Conditions Browser
+description: Data metrics researched and provided by HytaleEngineer.
+baseurl: ""
+url: ""
+theme: jekyll-theme-cayman # or keep blank for custom build

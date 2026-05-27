@@ -1,0 +1,59 @@
+<main class="app-detail-panel">
+    <div id="empty-state" class="empty-state">
+        <h2>Select a sapling from the catalog to view metrics.</h2>
+    </div>
+
+    <div id="detail-content" class="hidden">
+        <div class="detail-header-ribbon">
+            <h2 id="dt-name">Tree Name</h2>
+            <div id="dt-extra-info-container" class="hidden">
+                <p id="dt-extra-info"></p>
+            </div>
+        </div>
+
+        <div class="growth-matrix">
+            <div class="timeline-nodes">
+                <button class="node-btn active" data-stage="1">Stage 1</button>
+                <button class="node-btn" data-stage="2">Stage 2</button>
+                <button class="node-btn" data-stage="3">Stage 3</button>
+                <button class="node-btn" data-stage="4">Stage 4</button>
+                <button class="node-btn" data-stage="5">Stage 5</button>
+            </div>
+            
+            <div class="matrix-showcase">
+                <img id="dt-stage-img" src="assets/images/fallback_frame.png" onerror="this.src='assets/images/fallback_frame.png'" alt="Tree Stage">
+            </div>
+
+            <div class="matrix-tray">
+                <span class="tray-label">Prevention Rule:</span>
+                <p id="dt-rule-output">Select a stage.</p>
+                <div class="persistent-badge">Global Action: <span id="dt-any-stage"></span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="grid-sector">
+                <h3>Environmental Growth</h3>
+                <div class="tile">Depth: <span id="dt-depth"></span></div>
+                <div class="tile">Spacing: <span id="dt-spacing"></span></div>
+                <div class="tile">Station Tier: <span id="dt-station"></span></div>
+                <div class="tile">Cost: <span class="coin-glyph"></span><span id="dt-cost"></span></div>
+            </div>
+
+            <div class="grid-sector">
+                <h3>Phase Probabilities</h3>
+                <div class="tile">Guaranteed Lifecycle: <span id="dt-guaranteed"></span></div>
+                <div class="tile">Probability Array: <span id="dt-probabilities"></span></div>
+                <div class="tile">Maturity Time: <span id="dt-time"></span></div>
+            </div>
+
+            <div class="grid-sector drop-metrics-matrix">
+                <h3>Loot Tables</h3>
+                <div class="loot-slot">🪵 Logs: <span id="dt-logs"></span></div>
+                <div class="loot-slot">🪵 Sticks: <span id="dt-sticks"></span></div>
+                <div class="loot-slot">🌾 Fibre: <span id="dt-fibre"></span></div>
+                <div class="loot-slot">🧪 Sap: <span id="dt-sap"></span></div>
+            </div>
+        </div>
+    </div>
+</main>
