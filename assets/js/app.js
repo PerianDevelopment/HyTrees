@@ -42,7 +42,7 @@ function initCatalog() {
 
         // Determine the wood badge display text
         const woodTypeRaw = tree["Wood Type"];
-        const woodDisplay = (woodTypeRaw === "NONE" || !woodTypeRaw) ? "???" : `${parseVal(woodTypeRaw)}wood`;
+        const woodDisplay = (woodTypeRaw === "NONE" || !woodTypeRaw) ? Unknown : `${parseVal(woodTypeRaw)}wood`;
 
         // Dynamically load the log image in the sidebar
         card.innerHTML = `
@@ -67,13 +67,6 @@ function selectTree(tree) {
 
     // Header Updates
     document.getElementById('dt-name').innerText = tree.Tree;
-    const extraInfo = document.getElementById('dt-extra-info-container');
-    if (tree["Special Extras"]) {
-        extraInfo.classList.remove('hidden');
-        document.getElementById('dt-extra-info').innerText = tree["Special Extras"];
-    } else {
-        extraInfo.classList.add('hidden');
-    }
 
     // 1. Growth Requirements Binding
     document.getElementById('dt-spacing').innerText = parseVal(tree["Spacing"]);
