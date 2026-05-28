@@ -58,6 +58,12 @@ function initCatalog() {
 }
 
 function selectTree(tree) {
+    
+    if (window.innerWidth <= 768) {
+        const sidebar = document.querySelector('.app-sidebar');
+        if (sidebar) sidebar.classList.add('collapsed-mobile');
+    }
+
     AppState.selectedTreeId = tree;
     AppState.activeStageTimelineIndex = 5; // Reset to stage 5 visually when switching trees
     const treeIdClean = tree.Tree.toLowerCase().replace(/\s/g, '');
@@ -207,6 +213,15 @@ function setupEventListeners() {
         stagesToggle.addEventListener('click', () => {
             stagesToggle.classList.toggle('collapsed');
             stagesContent.classList.toggle('hidden-collapse');
+        });
+    }
+
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.querySelector('.app-sidebar');
+    
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed-mobile');
         });
     }
 }
