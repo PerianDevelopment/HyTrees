@@ -182,7 +182,7 @@ function setupEventListeners() {
     // Stage Timeline Buttons
     document.querySelectorAll('.node-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            AppState.activeStageTimelineIndex = parseInt(e.target.dataset.stage);
+            AppState.activeStageTimelineIndex = parseInt(e.currentTarget.dataset.stage);
             updateTimelineMatrix();
         });
     });
@@ -198,4 +198,15 @@ function setupEventListeners() {
         AppState.activeFilters.woodType = e.target.value;
         initCatalog();
     });
+
+    // Collapsible Stages Toggle
+    const stagesToggle = document.getElementById('stages-toggle');
+    const stagesContent = document.getElementById('stages-content');
+    
+    if (stagesToggle && stagesContent) {
+        stagesToggle.addEventListener('click', () => {
+            stagesToggle.classList.toggle('collapsed');
+            stagesContent.classList.toggle('hidden-collapse');
+        });
+    }
 }

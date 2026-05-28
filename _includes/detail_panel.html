@@ -100,26 +100,42 @@
         </div>
 
         <div class="secondary-stages-view">
-            <h3>Growth Stages & Suppression Rules</h3>
-            <div class="timeline-nodes">
-                <button class="node-btn active" data-stage="1">Stage 1</button>
-                <button class="node-btn" data-stage="2">Stage 2</button>
-                <button class="node-btn" data-stage="3">Stage 3</button>
-                <button class="node-btn" data-stage="4">Stage 4</button>
-                <button class="node-btn" data-stage="5">Stage 5</button>
+            <div class="collapsible-header" id="stages-toggle">
+                <h3>Growth Stages & Suppression Rules</h3>
+                <span class="toggle-icon">▼</span>
             </div>
             
-            <div class="matrix-tray">
-                <div class="rule-group">
-                    <span class="tray-label">Prevention Rule for Selected Stage:</span>
-                    <p id="dt-rule-output">Select a stage.</p>
+            <div class="collapsible-content" id="stages-content">
+                <div class="timeline-nodes">
+                    <button class="node-btn active" data-stage="1">Stage 1</button>
+                    <button class="node-btn" data-stage="2">Stage 2</button>
+                    <button class="node-btn" data-stage="3">Stage 3</button>
+                    <button class="node-btn" data-stage="4">Stage 4</button>
+                    <button class="node-btn" data-stage="5">Stage 5</button>
                 </div>
-                <div class="rule-group">
-                    <span class="tray-label">Stage Probabilities:</span>
-                    <p id="dt-probabilities"></p>
+                
+                <div class="matrix-tray">
+                    <div class="rule-group">
+                        <span class="tray-label">Prevention Rule for Selected Stage:</span>
+                        <p id="dt-rule-output">Select a stage.</p>
+                    </div>
+                    <div class="rule-group">
+                        <span class="tray-label">Stage Probabilities:</span>
+                        <p id="dt-probabilities"></p>
+                    </div>
+                    <div class="persistent-badge">Global Action: <span id="dt-any-stage"></span></div>
                 </div>
-                <div class="persistent-badge">For each tier you can: <span id="dt-any-stage"></span></div>
             </div>
         </div>
+
+        <div class="learn-more-section">
+            <h3>Learn More</h3>
+            <p class="learn-more-text">This video by HytaleEngineer explains exactly what all the metrics mean and how to apply and use them.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/jssczRa2hGc" title="This ONE Video explains EVERYTHING about Hytale Trees" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</main>
     </div>
 </main>
