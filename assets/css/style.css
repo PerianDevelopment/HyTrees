@@ -416,3 +416,74 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
+@media (max-width: 768px) {
+  /* Stack header elements */
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .zone-branding {
+    justify-content: center;
+  }
+  
+  .tribute-tablet {
+    justify-content: center;
+  }
+
+  /* Stack the main workspace vertically */
+  .workspace-split {
+    flex-direction: column;
+  }
+
+  /* Transform sidebar into a top scrolling list */
+  .app-sidebar {
+    width: 100%;
+    max-width: none;
+    height: 35vh; /* Takes up top 35% of screen */
+    border-right: none;
+    border-bottom: 2px solid var(--border-stone);
+  }
+
+  /* Detail panel formatting */
+  .app-detail-panel {
+    padding: 15px;
+  }
+
+  .detail-header-ribbon h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  /* Collapse the 2-column grids to 1 column */
+  .primary-data-view {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Main image container adjustment */
+  .main-image-showcase {
+    min-height: 250px;
+  }
+
+  /* Stack requirement rows instead of side-by-side */
+  .req-row {
+    flex-direction: column;
+  }
+
+  /* Ensure timeline buttons wrap neatly instead of squishing */
+  .timeline-nodes {
+    flex-wrap: wrap;
+  }
+  
+  .node-btn {
+    flex: 1 1 30%; /* Forces buttons to wrap to next line if needed */
+    padding: 8px;
+    font-size: 13px;
+  }
+}
