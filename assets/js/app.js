@@ -121,7 +121,6 @@ function selectTree(tree) {
     document.getElementById('dt-sap').innerText = parseVal(tree["Sap"]);
 
     // Probabilities and Global Any-Stage rule
-    document.getElementById('dt-probabilities').innerText = parseVal(tree["% reaching each stage"]);
     document.getElementById('dt-any-stage').innerText = parseVal(tree["Any stage"]);
 
     updateTimelineMatrix();
